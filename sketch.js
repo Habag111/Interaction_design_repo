@@ -1,3 +1,5 @@
+// TestJD
+
 const symbolSet = 'MWBCDEFA0896543271bdaecf-:'.split('');
 const baseSymbolSize = 14;
 const baseCellPadding = 4;
