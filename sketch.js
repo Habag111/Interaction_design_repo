@@ -1,4 +1,4 @@
-// TestJD
+// Test
 
 const symbolSet = 'MWBCDEFA0896543271bdaecf-:'.split('');
 const baseSymbolSize = 14;
