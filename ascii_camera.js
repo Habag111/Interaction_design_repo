@@ -4,7 +4,7 @@ let video
 let asciiDiv;
 
 
-function setup() {
+function camera_setup() {
   noCanvas();
   video = createCapture(VIDEO);
   video.size(64,48);
@@ -12,7 +12,7 @@ function setup() {
   
 }
 
-  function draw(){
+function camera_stage(){
 
   video.loadPixels();
     let asciiImage= '';

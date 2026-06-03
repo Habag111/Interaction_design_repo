@@ -1,3 +1,5 @@
+let currentScene = "intro";
+
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -8,5 +10,29 @@ function setup() {
 }
 
 function draw() {
-  intro_stage();
+  switch (currentScene) {
+    case "intro":
+      intro_stage();
+      break;
+    case "asciiCamera":
+      camera_stage();
+      break;
+    case "gameOver":
+      drawGameOverScene();
+      break;
+    default:
+      console.log("Error: Unknown scene");
+  }
+  ;
+}
+
+
+function mousePressed() {
+  if (currentScene === "intro") {
+    camera_setup();
+    currentScene = "asciiCamera"; // Switch to gameplay on click
+  }
+  else if (currentScene === "gameplay") {
+    currentScene = "gameOver"; // Simulate game over for demonstration
+  }
 }
