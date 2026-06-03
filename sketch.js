@@ -30,9 +30,9 @@ function draw() {
 function mousePressed() {
   if (currentScene === "intro") {
     camera_setup();
-    currentScene = "asciiCamera"; // Switch to gameplay on click
+    currentScene = "asciiCamera"; // Switch to asciiCamera on click
   }
   else if (currentScene === "gameplay") {
-    currentScene = "gameOver"; // Simulate game over for demonstration
+    currentScene = "gameOver";
   }
 }
