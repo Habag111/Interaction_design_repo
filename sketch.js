@@ -1,5 +1,6 @@
 let currentScene = "intro";
-
+let serialValue = 'click to connect';
+let port;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -7,6 +8,7 @@ function setup() {
   textFont('Courier');
   textAlign(CENTER, CENTER);
   noStroke();
+  console.log(serialValue);
 }
 
 function draw() {
@@ -26,13 +28,25 @@ function draw() {
   ;
 }
 
+function TriggerAfterReceive() {
+    camera_setup();
+    currentScene = "asciiCamera"; 
+    console.log(serialValue);
+    console.log(currentScene);
+}
 
 function mousePressed() {
-  if (currentScene === "intro") {
-    camera_setup();
-    currentScene = "asciiCamera"; // Switch to asciiCamera on click
-  }
-  else if (currentScene === "gameplay") {
-    currentScene = "gameOver";
-  }
+    connectSerial();
 }
+
+
+
+// function mousePressed() {
+//   if (currentScene === "intro") {
+//     camera_setup();
+//     currentScene = "asciiCamera"; // Switch to asciiCamera on click
+//   }
+//   else if (currentScene === "gameplay") {
+//     currentScene = "gameOver";
+//   }
+// }
