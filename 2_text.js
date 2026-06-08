@@ -238,6 +238,106 @@ const letters = {
     '1....',
     '11111'
   ],
+  '0': [
+    '.111.',
+    '.111.',
+    '1...1',
+    '1..11',
+    '1.1.1',
+    '11..1',
+    '1...1',
+    '.111.'
+  ],
+  '1': [
+    '..1..',
+    '.11..',
+    '..1..',
+    '..1..',
+    '..1..',
+    '..1..',
+    '.111.'
+  ],
+  '2': [
+    '.111.',
+    '1...1',
+    '....1',
+    '...1.',
+    '..1..',
+    '.1...',
+    '11111'
+  ],
+  '3': [
+    '.111.',
+    '1...1',
+    '....1',
+    '..11.',
+    '....1',
+    '1...1',
+    '.111.'
+  ],
+  '4': [
+    '...1.',
+    '..11.',
+    '.1.1.',
+    '1..1.',
+    '11111',
+    '...1.',
+    '...1.'
+  ],
+  '5': [
+    '11111',
+    '1....',
+    '1111.',
+    '....1',
+    '....1',
+    '1...1',
+    '.111.'
+  ],
+  '6': [
+    '.111.',
+    '1....',
+    '1....',
+    '1111.',
+    '1...1',
+    '1...1',
+    '.111.'
+  ],
+  '7': [
+    '11111',
+    '....1',
+    '...1.',
+    '..1..',
+    '.1...',
+    '.1...',
+    '.1...'
+  ],
+  '8': [
+    '.111.',
+    '1...1',
+    '1...1',
+    '.111.',
+    '1...1',
+    '1...1',
+    '.111.'
+  ],
+  '9': [
+    '.111.',
+    '1...1',
+    '1...1',
+    '.1111',
+    '....1',
+    '...1.',
+    '.11..'
+  ],
+  '%': [
+    '11...',
+    '1...1',
+    '...1.',
+    '..1..',
+    '.1...',
+    '1...1',
+    '...11'
+  ],
   '?': [
     '.111.',
     '1...1',
@@ -255,15 +355,45 @@ const letters = {
     '.....',
     '.....',
     '.....'
+  ],
+  '(': [
+    '..1..',
+    '.1...',
+    '1....',
+    '1....',
+    '1....',
+    '.1...',
+    '..1..'
+  ],
+  ')': [
+    '..1..',
+    '...1.',
+    '....1',
+    '....1',
+    '....1',
+    '...1.',
+    '..1..'
   ]
 };
 
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  frameRate(12);
+}
+
+function draw() {
+  intro_stage();
+}
+
 function intro_stage(){
-    background(20);
-  fill(255);
+  background(0);
+  textFont('Courier');
+  textAlign(CENTER, CENTER);
+  noStroke();
 
   const lines = [
-    'DO YOU THINK YOU ARE EXCLUDED ?',
+    'CHECKING',
+    '(EVALUATING)',
   ];
 
   const maxLineUnits = Math.max(
@@ -274,26 +404,21 @@ function intro_stage(){
     )
   );
 
-  const availableWidth = max(width - 40, 200);
-  const availableHeight = max(height - 40, 200);
-  const estimatedLineHeight = 7 * (baseSymbolSize + baseCellPadding);
-
-  const scaleX = availableWidth / (maxLineUnits * (baseSymbolSize + baseCellPadding) + (maxLineUnits - 1) * baseLetterSpacing);
-  const scaleY = availableHeight / (lines.length * estimatedLineHeight + (lines.length - 1) * baseLineSpacing);
-  const scale = Math.min(scaleX, scaleY, 1);
-
-  const symbolSize = Math.max(6, Math.floor(baseSymbolSize * scale));
-  const cellWidth = Math.max(8, Math.floor(symbolSize + baseCellPadding * scale));
+  const symbolSize = baseSymbolSize;
+  const cellWidth = symbolSize + baseCellPadding;
   const cellHeight = cellWidth;
-  const letterSpacing = Math.max(2, Math.floor(baseLetterSpacing * scale));
-  const lineSpacing = Math.max(12, Math.floor(baseLineSpacing * scale));
+  const letterSpacing = baseLetterSpacing;
+  const lineSpacing = baseLineSpacing;
 
+  drawSymbolBackground(cellWidth, cellHeight);
+
+  fill(0);
   const totalHeight = lines.length * (7 * cellHeight) + (lines.length - 1) * lineSpacing;
-  let y = (height - totalHeight) / 2 + cellHeight / 2;
+  let y = (height - totalHeight) / 2;
 
   for (const line of lines) {
     const lineWidth = getLineWidth(line, cellWidth, letterSpacing);
-    let x = (width - lineWidth) / 2 + cellWidth / 2;
+    let x = (width - lineWidth) / 2;
 
     for (const char of line) {
       const letter = letters[char] || letters[' '];
@@ -305,8 +430,26 @@ function intro_stage(){
   }
 }
 
+function drawSymbolBackground(cellWidth, cellHeight) {
+  fill(255);
+  textSize(Math.floor(cellHeight * 0.9));
+  textLeading(cellHeight);
+
+  const cols = Math.ceil(width / cellWidth);
+  const rows = Math.ceil(height / cellHeight);
+
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+      const x = col * cellWidth;
+      const y = row * cellHeight;
+      text(random(symbolSet), x, y);
+    }
+  }
+}
+
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
+  intro_stage();
 }
 
 function getLetterWidth(char) {
@@ -318,12 +461,13 @@ function getLineWidth(line, cellWidth, letterSpacing) {
 }
 
 function drawLetter(letter, xOffset, yOffset, cellWidth, cellHeight) {
+  fill(0);
   for (let row = 0; row < letter.length; row++) {
     for (let col = 0; col < letter[row].length; col++) {
       if (letter[row][col] === '1') {
         const x = xOffset + col * cellWidth;
         const y = yOffset + row * cellHeight;
-        text(random(symbolSet), x, y);
+        rect(x, y, cellWidth, cellHeight);
       }
     }
   }

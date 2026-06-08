@@ -1,5 +1,5 @@
 const symbolSet = 'MWBCDEFA0896543271bdaecf-:'.split('');
-const baseSymbolSize = 14;
+const baseSymbolSize = 6;
 const baseCellPadding = 4;
 const baseLetterSpacing = 6;
 const baseLineSpacing = 24;
@@ -240,6 +240,7 @@ const letters = {
   ],
   '0': [
     '.111.',
+    '.111.',
     '1...1',
     '1..11',
     '1.1.1',
@@ -384,19 +385,12 @@ function intro_stage(){
     )
   );
 
-  const availableWidth = max(width - 40, 200);
-  const availableHeight = max(height - 40, 200);
-  const estimatedLineHeight = 7 * (baseSymbolSize + baseCellPadding);
 
-  const scaleX = windowWidth / (maxLineUnits * (baseSymbolSize + baseCellPadding) + (maxLineUnits - 1) * baseLetterSpacing);
-  const scaleY = windowHeight / (lines.length * estimatedLineHeight + (lines.length - 1) * baseLineSpacing);
-  const scale = Math.min(scaleX, scaleY, 1);
-
-  const symbolSize = Math.max(6, Math.floor(baseSymbolSize * scale));
-  const cellWidth = Math.max(8, Math.floor(symbolSize + baseCellPadding * scale));
+  const symbolSize = baseSymbolSize;
+  const cellWidth = cellHeight;
   const cellHeight = cellWidth;
-  const letterSpacing = Math.max(2, Math.floor(baseLetterSpacing * scale));
-  const lineSpacing = Math.max(12, Math.floor(baseLineSpacing * scale));
+  const letterSpacing = baseLetterSpacing;
+  const lineSpacing = baseLetterSpacing;
 
   drawSymbolBackground(cellWidth, cellHeight);
 
