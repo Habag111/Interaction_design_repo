@@ -420,9 +420,32 @@ function intro_stage(){
     const lineWidth = getLineWidth(line, cellWidth, letterSpacing);
     let x = (width - lineWidth) / 2;
 
+    const isEvaluatingLine = line.trim() === '(EVALUATING)';
+    // 2s visible, 2s hidden cycle (4000ms). Fade in/out at edges.
+    const cycle = 4000;
+    const fadeDur = 400; // ms
+    const t = millis() % cycle;
+    let evalAlpha = 255;
+    if (isEvaluatingLine) {
+      if (t < 2000) {
+        // visible window: fade in at start, fade out at end
+        if (t < fadeDur) evalAlpha = Math.floor(map(t, 0, fadeDur, 0, 255));
+        else if (t > 2000 - fadeDur) evalAlpha = Math.floor(map(t, 2000 - fadeDur, 2000, 255, 0));
+        else evalAlpha = 255;
+      } else {
+        evalAlpha = 0;
+      }
+    }
+
     for (const char of line) {
       const letter = letters[char] || letters[' '];
-      drawLetter(letter, x, y, cellWidth, cellHeight);
+      if (!isEvaluatingLine) {
+        fill(0);
+        drawLetter(letter, x, y, cellWidth, cellHeight);
+      } else if (evalAlpha > 0) {
+        fill(0, evalAlpha);
+        drawLetter(letter, x, y, cellWidth, cellHeight);
+      }
       x += getLetterWidth(char) * cellWidth + letterSpacing;
     }
 
@@ -461,7 +484,6 @@ function getLineWidth(line, cellWidth, letterSpacing) {
 }
 
 function drawLetter(letter, xOffset, yOffset, cellWidth, cellHeight) {
-  fill(0);
   for (let row = 0; row < letter.length; row++) {
     for (let col = 0; col < letter[row].length; col++) {
       if (letter[row][col] === '1') {

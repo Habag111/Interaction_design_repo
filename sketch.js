@@ -14,6 +14,12 @@ function draw() {
     case "intro":
       intro_stage();
       break;
+    case "2_text":
+      text3_stage();
+      break;
+    case "3_text":
+      text2_stage();
+      break;
     case "asciiCamera":
       camera_stage();
       break;

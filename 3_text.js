@@ -387,7 +387,7 @@ function intro_stage(){
 
 
   const symbolSize = baseSymbolSize;
-  const cellWidth = cellHeight;
+  const cellWidth = symbolSize + baseCellPadding;
   const cellHeight = cellWidth;
   const letterSpacing = baseLetterSpacing;
   const lineSpacing = baseLetterSpacing;
