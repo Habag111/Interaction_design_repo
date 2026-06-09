@@ -46,9 +46,9 @@ async function connectSerial() {
     }
 }
 
-function mousePressed() {
-    connectSerial();
-}
+// function mousePressed() {
+//     connectSerial();
+// }
 
 // function touchStarted() {
 //     connectSerial();
