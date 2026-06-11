@@ -1,12 +1,12 @@
 let cam;
-const CAPTURE_WIDTH = 1920;
-const CAPTURE_HEIGHT = 1080;
+const CAPTURE_WIDTH = 640;
+const CAPTURE_HEIGHT = 480;
 const PIXEL_SIZE = 10;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   captureWidth = windowWidth;
-  captureHeight = windowHeight;
+  captureHeight = windowWidth * (CAPTURE_HEIGHT / CAPTURE_WIDTH);
   cam = createCapture(VIDEO);
   cam.size(captureWidth, captureHeight);
   cam.hide();
@@ -16,7 +16,7 @@ function setup() {
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
   captureWidth = windowWidth;
-  captureHeight = windowHeight;
+  captureHeight = windowWidth * (CAPTURE_HEIGHT / CAPTURE_WIDTH);
   cam.size(captureWidth, captureHeight);
 }
 
