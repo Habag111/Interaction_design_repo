@@ -1,6 +1,6 @@
 let cam;
-const CAPTURE_WIDTH = 640;
-const CAPTURE_HEIGHT = 480;
+const CAPTURE_WIDTH = 1920;
+const CAPTURE_HEIGHT = 1080;
 const PIXEL_SIZE = 10;
 
 function setup() {
