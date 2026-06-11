@@ -259,7 +259,7 @@ const letters = {
 };
 
 function intro_stage(){
-    background(20);
+    background(0);
   fill(255);
 
   const lines = [
