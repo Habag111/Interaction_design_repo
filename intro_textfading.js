@@ -1,3 +1,5 @@
+let currentScene = "intro_text";
+let t = 0;
 const symbolSet = 'MWBCDEFA0896543271bdaecf-:'.split('');
 const baseSymbolSize = 6;
 const baseCellPadding = 4;
@@ -603,16 +605,54 @@ const letters = {
 
 }
 
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  background(0);
+  textFont('Courier');
+  textAlign(CENTER, CENTER);
+  noStroke();
+}
+
+function draw() {
+  if (currentScene === "intro_text") {
+    t ++;
+    intro_text();
+    if (t == 100) {
+      currentScene = "checking_evaluating";
+      t = 0;
+    }
+  }
+  if (currentScene === "checking_evaluating") {
+    t ++;
+    if (t == 100) {
+      currentScene = "pixel";
+      t = 0;
+    }
+  }
+  ;
+}
+
+
+function mousePressed() {
+  if (currentScene === "intro") {
+    camera_setup();
+    currentScene = "checking_evaluating"; // Switch to asciiCamera on click
+  }
+  else if (currentScene === "gameplay") {
+    currentScene = "gameOver";
+  }
+}
+
   function setup() {
   createCanvas(windowWidth, windowHeight);
   frameRate(12);
 }
 
 function draw() {
-  intro_stage();
+  intro_text();
 }
 
-function intro_stage(){
+function intro_text(){
   background(0);
   textFont('Courier');
   textAlign(CENTER, CENTER);
@@ -732,4 +772,158 @@ function drawLetter(letter, xOffset, yOffset, cellWidth, cellHeight) {
   }
 }
 
+function draw() {
+  checking_evaluating();
+}
 
+function checking_evaluating(){
+  background(0);
+  textFont('Courier');
+  textAlign(CENTER, CENTER);
+  noStroke();
+
+  const lines = [
+    'CHECKING',
+    '(EVALUATING)',
+  ];
+
+  const maxLineUnits = Math.max(
+    ...lines.map((line) =>
+      line
+        .split('')
+        .reduce((sum, char) => sum + getLetterWidth(char), 0)
+    )
+  );
+
+  const symbolSize = baseSymbolSize;
+  const cellWidth = symbolSize + baseCellPadding;
+  const cellHeight = cellWidth;
+  const letterSpacing = baseLetterSpacing;
+  const lineSpacing = baseLineSpacing;
+
+  drawSymbolBackground(cellWidth, cellHeight);
+
+  fill(0);
+  const totalHeight = lines.length * (7 * cellHeight) + (lines.length - 1) * lineSpacing;
+  let y = (height - totalHeight) / 2;
+
+  for (const line of lines) {
+    const lineWidth = getLineWidth(line, cellWidth, letterSpacing);
+    let x = (width - lineWidth) / 2;
+
+    const isEvaluatingLine = line.trim() === '(EVALUATING)';
+    // 2s visible, 2s hidden cycle (4000ms). Fade in/out at edges.
+    const cycle = 4000;
+    const fadeDur = 400; // ms
+    const t = millis() % cycle;
+    let evalAlpha = 255;
+    if (isEvaluatingLine) {
+      if (t < 2000) {
+        // visible window: fade in at start, fade out at end
+        if (t < fadeDur) evalAlpha = Math.floor(map(t, 0, fadeDur, 0, 255));
+        else if (t > 2000 - fadeDur) evalAlpha = Math.floor(map(t, 2000 - fadeDur, 2000, 255, 0));
+        else evalAlpha = 255;
+      } else {
+        evalAlpha = 0;
+      }
+    }
+
+    for (const char of line) {
+      const letter = letters[char] || letters[' '];
+      if (!isEvaluatingLine) {
+        fill(0);
+        drawLetter(letter, x, y, cellWidth, cellHeight);
+      } else if (evalAlpha > 0) {
+        fill(0, evalAlpha);
+        drawLetter(letter, x, y, cellWidth, cellHeight);
+      }
+      x += getLetterWidth(char) * cellWidth + letterSpacing;
+    }
+
+    y += 7 * cellHeight + lineSpacing;
+  }
+}
+
+function drawSymbolBackground(cellWidth, cellHeight) {
+  fill(255);
+  textSize(Math.floor(cellHeight * 0.9));
+  textLeading(cellHeight);
+
+  const cols = Math.ceil(width / cellWidth);
+  const rows = Math.ceil(height / cellHeight);
+
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+      const x = col * cellWidth;
+      const y = row * cellHeight;
+      text(random(symbolSet), x, y);
+    }
+  }
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  intro_stage();
+}
+
+function getLetterWidth(char) {
+  return letters[char]?.[0]?.length || 5;
+}
+
+function getLineWidth(line, cellWidth, letterSpacing) {
+  return line.split('').reduce((sum, char) => sum + getLetterWidth(char) * cellWidth, 0) + Math.max(0, line.length - 1) * letterSpacing;
+}
+
+function drawLetter(letter, xOffset, yOffset, cellWidth, cellHeight) {
+  for (let row = 0; row < letter.length; row++) {
+    for (let col = 0; col < letter[row].length; col++) {
+      if (letter[row][col] === '1') {
+        const x = xOffset + col * cellWidth;
+        const y = yOffset + row * cellHeight;
+        rect(x, y, cellWidth, cellHeight);
+      }
+    }
+  }
+}
+
+let cam;
+const CAPTURE_WIDTH = 640;
+const CAPTURE_HEIGHT = 480;
+const PIXEL_SIZE = 10;
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  captureWidth = windowWidth;
+  captureHeight = windowWidth * (CAPTURE_HEIGHT / CAPTURE_WIDTH);
+  cam = createCapture(VIDEO);
+  cam.size(captureWidth, captureHeight);
+  cam.hide();
+  noStroke();
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  captureWidth = windowWidth;
+  captureHeight = windowWidth * (CAPTURE_HEIGHT / CAPTURE_WIDTH);
+  cam.size(captureWidth, captureHeight);
+}
+
+function draw() {
+  background(0);
+  cam.loadPixels();
+
+  for (let x = 0; x < cam.width; x += PIXEL_SIZE) {
+    for (let y = 0; y < cam.height; y += PIXEL_SIZE) {
+      const i = (x + y * cam.width) * 4;
+      const r = cam.pixels[i];
+      const g = cam.pixels[i + 1];
+      const b = cam.pixels[i + 2];
+      const brightness = (r + g + b) / 3;
+      const bw = brightness > 127 ? 255 : 0;
+      fill(bw);
+      rect(x, y, PIXEL_SIZE, PIXEL_SIZE);
+    }
+  }
+
+  pop();
+}
