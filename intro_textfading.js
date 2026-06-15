@@ -255,10 +255,198 @@ const letters = {
     '.....',
     '.....',
     '.....'
-  ]
-};
+  ],
+  a: [
+    '.11.',
+    '1..1',
+    '1111',
+    '1..1',
+    '1..1'
+  ],
+  b: [
+    '111.',
+    '1..1',
+    '111.',
+    '1..1',
+    '111.'
+  ],
+  c: [
+    '.111',
+    '1...',
+    '1...',
+    '1...',
+    '.111'
+  ],
+  d: [
+    '111.',
+    '1..1',
+    '1..1',
+    '1..1',
+    '111.'
+  ],
+  e: [
+    '1111',
+    '1...',
+    '1111',
+    '1...',
+    '1111'
+  ],
+  f: [
+    '1111',
+    '1...',
+    '1111',
+    '1...',
+    '1...',
+  ],
+  g: [
+    '.111',
+    '1...',
+    '1.11',
+    '1..1',
+    '.111'
+  ],
+  h: [
+    '1..1',
+    '1..1',
+    '1111',
+    '1..1',
+    '1..1',
+  ],
+  i: [
+    '.1.',
+    '.1.',
+    '.1.',
+    '.1.',
+    '.1.',
+  ],
+  j: [
+    '.111',
+    '..1.',
+    '..1.',
+    '..1.',
+    '11..'
+  ],
+  k: [
+    '1..1',
+    '1.1.',
+    '11..',
+    '1.1.',
+    '1..1',
+  ],
+  l: [
+    '1...',
+    '1...',
+    '1...',
+    '1...',
+    '111.'
+  ],
+  m: [
+    '1..1',
+    '1111',
+    '1..1',
+    '1..1',
+    '1..1',
+  ],
+  n: [
+    '1...1',
+    '11..1',
+    '1.1.1',
+    '1..11',
+    '1...1',
+  ],
+  o: [
+    '.11.',
+    '1..1',
+    '1..1',
+    '1..1',
+    '.11.'
+  ],
+  p: [
+    '111.',
+    '1..1',
+    '111.',
+    '1...',
+    '1...',
+  ],
+  q: [
+    '.11.',
+    '1..1',
+    '1..1',
+    '1.11.',
+    '.111'
+  ],
+  r: [
+    '111.',
+    '1..1',
+    '111.',
+    '1.1.',
+    '1..1',
+  ],
+  s: [
+    '.111',
+    '1...',
+    '.11.',
+    '...1',
+    '111.'
+  ],
+  t: [
+    '1111',
+    '..1.',
+    '..1.',
+    '..1.',
+    '..1.'
+  ],
+  u: [
+    '1..1',
+    '1..1',
+    '1..1',
+    '1..1',
+    '.11.'
+  ],
+  v: [
+    '1..1',
+    '1..1',
+    '1..1',
+    '.11.',
+    '.11.',
+  ],
+  w: [
+    '1..1',
+    '1..1',
+    '1..1',
+    '1111',
+    '1..1',
+  ],
+  x: [
+    '1..1',
+    '1..1',
+    '.11.',
+    '1..1',
+    '1..1',
+  ],
+  y: [
+    '1..1',
+    '.1.1',
+    '..1.',
+    '..1.',
+    '..1.',
+  ],
+  z: [
+    '1111',
+    '..1.',
+    '.1..',
+    '1...',
+    '1111'
+  ],
+  '_': [
+    '....',
+    '....',
+    '....',
+    '....',
+    '....',
+  ],
 
-
+}
 
   function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -276,7 +464,9 @@ function intro_stage(){
   noStroke();
 
 
-  const lines = ['DO YOU THINK ','YO','U','ID',' ARE EXCLUDED ?'];
+  const parts = ['DO YOU THINK ', 'YO', 'U', 'ID', ' ARE EXCLUDED ?'];
+  const bottomLine = 'scan your card';
+  const lines = [parts.join(''), bottomLine];
 
   const maxLineUnits = Math.max(
     ...lines.map((line) =>
@@ -329,18 +519,29 @@ function intro_stage(){
   const totalHeight = lines.length * (7 * cellHeight) + (lines.length - 1) * lineSpacing;
   let y = (height - totalHeight) / 2 + cellHeight / 2;
 
-  for (const line of lines) {
-    const lineWidth = getLineWidth(line, cellWidth, letterSpacing);
-    let x = (width - lineWidth) / 2 + cellWidth / 2;
+  // Center the top line and render parts sequentially on the same y
+  const topWidth = parts.reduce((sum, p) => sum + getLineWidth(p, cellWidth, letterSpacing), 0);
+  let x = (width - topWidth) / 2 + cellWidth / 2;
 
-    fill(255, getLineAlpha(line));
-    for (const char of line) {
+  for (const part of parts) {
+    const alpha = getLineAlpha(part);
+    fill(255, alpha);
+    for (const char of part) {
       const letter = letters[char] || letters[' '];
       drawLetter(letter, x, y, cellWidth, cellHeight);
       x += getLetterWidth(char) * cellWidth + letterSpacing;
     }
+  }
 
-    y += 7 * cellHeight + lineSpacing;
+  // Draw the bottom line below the top line
+  y += 7 * cellHeight + lineSpacing;
+  const bottomWidth = getLineWidth(bottomLine, cellWidth, letterSpacing);
+  x = (width - bottomWidth) / 2 + cellWidth / 2;
+  fill(255);
+  for (const char of bottomLine) {
+    const letter = letters[char] || letters[' '];
+    drawLetter(letter, x, y, cellWidth, cellHeight);
+    x += getLetterWidth(char) * cellWidth + letterSpacing;
   }
 }
 
