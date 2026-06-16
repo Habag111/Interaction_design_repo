@@ -2,6 +2,8 @@
 // const density = 'MWBCDEFA0896543271bdaecf-;:+=-,._                   '
 const density = 'MWBCDEFA0896543271bdaecf-:'
 const density_end = ';                   '
+const CAPTURE_WIDTH = 64;
+const CAPTURE_HEIGHT = 48;
 // const density_end = ';:+=-,._                   '
 
 function buildDensityString(inputChars, densityOrder, endChars) {
@@ -48,12 +50,22 @@ let asciiDiv;
 
 
 function setup() {
-  noCanvas();
+  //noCanvas();
+  createCanvas(windowWidth, windowHeight);
   video = createCapture(VIDEO);
-  video.size(120,90);
   asciiDiv = createDiv();
+  captureWidth = windowWidth;
+  captureHeight = windowWidth * (CAPTURE_HEIGHT / CAPTURE_WIDTH);
+  video.size(captureWidth, captureHeight);
+  //video.size(64,48);
   video.hide();
   
+}
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  captureWidth = windowWidth;
+  captureHeight = windowWidth * (CAPTURE_HEIGHT / CAPTURE_WIDTH);
+  video.size(captureWidth, captureHeight);
 }
 
 

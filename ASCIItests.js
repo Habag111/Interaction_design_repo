@@ -2,7 +2,9 @@
 // const density = 'MWBCDEFA0896543271bdaecf-;:+=-,._                   '
 const density = 'MWBCDEFA0896543271bdaecf-:'
 const density_end = ';                   '
-// const density_end = ';:+=-,._                   '
+// const density_end = ';:+=-,._                   'c
+const CAPTURE_WIDTH = 640;
+const CAPTURE_HEIGHT = 480;
 
 function buildDensityString(inputChars, densityOrder, endChars) {
   const uniqueChars = []
@@ -43,17 +45,49 @@ const inputString = 'DA:51:70:53'
 const arrangedDensity = buildDensityString(inputString, density, density_end)
 console.log(arrangedDensity)
 let video
-let asciiDiv;
-
-
+let asciiDiv
+let canvas
 
 function setup() {
-  noCanvas();
-  video = createCapture(VIDEO);
-  video.size(120,90);
-  asciiDiv = createDiv();
+  //noCanvas();
+  video = createCapture(VIDEO)
+  //video.size(64,48);
+  asciiDiv = createDiv()
+    .style('white-space', 'pre')
+    .style('font-family', 'Courier, monospace')
+    .style('font-size', '7px')
+    .style('line-height', '7px')
+    .style('max-width', '100vw')
+    .style('max-height', '100vh')
+    .style('overflow', 'hidden')
+
+  canvas = createCanvas(windowWidth, windowHeight)
+  canvas.hide()
   video.hide();
-  
+  updateCaptureSize()
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight)
+  updateCaptureSize()
+}
+
+function updateCaptureSize() {
+  const charWidth = 7
+  const charHeight = 7
+  const maxColumns = floor(windowWidth / charWidth)
+  const maxRows = floor(windowHeight / charHeight)
+  let width = min(maxColumns, CAPTURE_WIDTH)
+  let height = floor(width * (CAPTURE_HEIGHT / CAPTURE_WIDTH))
+
+  if (height > maxRows) {
+    height = maxRows
+    width = floor(height * (CAPTURE_WIDTH / CAPTURE_HEIGHT))
+  }
+
+  captureWidth = max(1, width)
+  captureHeight = max(1, height)
+  video.size(captureWidth, captureHeight)
 }
 
 
