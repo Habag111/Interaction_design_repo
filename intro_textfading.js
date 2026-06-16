@@ -739,15 +739,6 @@ function intro_text(){
     x += getLetterWidth(char) * cellWidth + letterSpacing;
   }
 }
-
-
-
-
-
-      
-
-
-
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
@@ -771,6 +762,10 @@ function drawLetter(letter, xOffset, yOffset, cellWidth, cellHeight) {
     }
   }
 }
+
+
+
+
 
 function draw() {
   checking_evaluating();
@@ -886,6 +881,13 @@ function drawLetter(letter, xOffset, yOffset, cellWidth, cellHeight) {
   }
 }
 
+
+
+
+
+
+function draw() {
+  pixel();
 let cam;
 const CAPTURE_WIDTH = 640;
 const CAPTURE_HEIGHT = 480;
