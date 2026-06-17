@@ -1,6 +1,9 @@
-let currentScene = "intro";
+let currentScene = "checking_stage";
+
 let serialValue = 'click to connect';
 let port;
+
+
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -10,13 +13,15 @@ function setup() {
   noStroke();
 }
 
+checking_setup();
+
 function draw() {
   switch (currentScene) {
-    case "intro":
-      intro_stage();
+    case "intro_text":
+      intro_text();
       break;
-    case "2_text":
-      text3_stage();
+    case "checking_stage":
+      checking_stage();
       break;
     case "3_text":
       text2_stage();
@@ -35,8 +40,8 @@ function draw() {
 
 
 function TriggerAfterReceive() {
-    camera_setup();
-    currentScene = "asciiCamera"; 
+    checking_setup();
+    currentScene = "checking_stage"; 
     console.log(serialValue);
     console.log(currentScene);
 }

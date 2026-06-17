@@ -1,4 +1,4 @@
-let currentScene = "intro_text";
+// let currentScene = "intro_text";
 let t = 0;
 const symbolSet = 'MWBCDEFA0896543271bdaecf-:'.split('');
 const baseSymbolSize = 6;
