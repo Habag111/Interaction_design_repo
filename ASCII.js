@@ -47,7 +47,7 @@ let asciiDiv;
 
 
 
-function setup() {
+function ascii_setup() {
   noCanvas();
   video = createCapture(VIDEO);
   video.size(120,90);
@@ -57,7 +57,7 @@ function setup() {
 }
 
 
-  function draw(){
+  function ascii_stage(){
 
   
   video.loadPixels();

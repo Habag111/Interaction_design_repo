@@ -3,7 +3,7 @@ const CAPTURE_WIDTH = 640;
 const CAPTURE_HEIGHT = 480;
 const PIXEL_SIZE = 10;
 
-function setup() {
+function pixel_setup() {
   createCanvas(windowWidth, windowHeight);
   captureWidth = windowWidth;
   captureHeight = windowWidth * (CAPTURE_HEIGHT / CAPTURE_WIDTH);
@@ -20,7 +20,7 @@ function windowResized() {
   cam.size(captureWidth, captureHeight);
 }
 
-function draw() {
+function pixelscene() {
   background(0);
   cam.loadPixels();
 

@@ -1,4 +1,4 @@
-let currentScene = "checking_stage";
+let currentScene = "intro_text";
 
 let serialValue = 'click to connect';
 let port;
@@ -13,7 +13,7 @@ function setup() {
   noStroke();
 }
 
-checking_setup();
+
 
 function draw() {
   switch (currentScene) {
@@ -23,11 +23,11 @@ function draw() {
     case "checking_stage":
       checking_stage();
       break;
-    case "3_text":
-      text2_stage();
+    case "pixel_stage":
+      pixelscene();
       break;
     case "asciiCamera":
-      camera_stage();
+      ascii_stage();
       break;
     case "gameOver":
       drawGameOverScene();
@@ -38,12 +38,24 @@ function draw() {
   ;
 }
 
+// frameRate(12);
 
 function TriggerAfterReceive() {
-    checking_setup();
+    // checking_setup();
     currentScene = "checking_stage"; 
     console.log(serialValue);
     console.log(currentScene);
+    changeSceneAfterSeconds(5, "pixel_stage", pixel_setup);
+    changeSceneAfterSeconds(25, "asciiCamera", ascii_setup);
+}
+
+function changeSceneAfterSeconds(seconds, sceneName, callback) {
+  setTimeout(() => {
+    currentScene = sceneName;
+    if (typeof callback === "function") {
+      callback();
+    }
+  }, seconds * 1000);
 }
 
 function mousePressed() {
