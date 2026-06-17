@@ -1,6 +1,6 @@
 let currentScene = "intro_text";
 
-let serialValue = 'click to connect';
+let serialValue = 'scan your card';
 let port;
 
 
@@ -41,12 +41,13 @@ function draw() {
 // frameRate(12);
 
 function TriggerAfterReceive() {
-    // checking_setup();
-    currentScene = "checking_stage"; 
+    // currentScene = "checking_stage";
+    parts = ['your number', 'is'] 
     console.log(serialValue);
     console.log(currentScene);
-    changeSceneAfterSeconds(5, "pixel_stage", pixel_setup);
-    changeSceneAfterSeconds(25, "asciiCamera", ascii_setup);
+    changeSceneAfterSeconds(10, "intro_text");
+    changeSceneAfterSeconds(20, "pixel_stage", pixel_setup);
+    changeSceneAfterSeconds(30, "asciiCamera", ascii_setup);
 }
 
 function changeSceneAfterSeconds(seconds, sceneName, callback) {
