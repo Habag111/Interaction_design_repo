@@ -1,5 +1,6 @@
 let currentScene = "intro";
-
+let serialValue = 'click to connect';
+let port;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -33,12 +34,13 @@ function draw() {
 }
 
 
-function mousePressed() {
-  if (currentScene === "intro") {
+function TriggerAfterReceive() {
     camera_setup();
-    currentScene = "asciiCamera"; // Switch to asciiCamera on click
-  }
-  else if (currentScene === "gameplay") {
-    currentScene = "gameOver";
-  }
+    currentScene = "asciiCamera"; 
+    console.log(serialValue);
+    console.log(currentScene);
+}
+
+function mousePressed() {
+    connectSerial();
 }
