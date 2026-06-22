@@ -1,8 +1,8 @@
+# USE BRANCH "final_v2_xd" TO SEE FINAL CODE, I'M SCARED OF MERGING TO MAIN SINCE EVERYTHING WORKS ^_^
+
+
 # nfc_to_http_p5
 
-## Getting Started
-
-Open `index.html` in your web browser and start editing `sketch.js`.
 
 ## Running Locally
 
@@ -18,8 +18,3 @@ npx http-server
 # Using VS Code Live Server extension
 # Right-click index.html -> "Open with Live Server"
 ```
-
-## Resources
-
-- [p5.js 2.0](https://beta.p5js.org/)
-- [p5.js Reference](https://p5js.org/reference/)
