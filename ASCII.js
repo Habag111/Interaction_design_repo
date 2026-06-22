@@ -1,5 +1,3 @@
-// const density = 'Ñ@#W$9876543210?!abc;:+=-,._                  '
-// const density = 'MWBCDEFA0896543271bdaecf-;:+=-,._                   '
 const density = 'MWBCDEFA0896543271bdaecf-:'
 const density_end = ';                   '
 // const density_end = ';:+=-,._                   '
@@ -48,18 +46,36 @@ let asciiDiv;
 
 
 function ascii_setup() {
-  noCanvas();
+  ascii_cleanup();
+  resizeCanvas(windowWidth, windowHeight);
+  background(0);
   video = createCapture(VIDEO);
   video.size(120,90);
   asciiDiv = createDiv();
+  asciiDiv.style('position', 'fixed');
+  asciiDiv.style('inset', '0');
+  asciiDiv.style('z-index', '10');
+  asciiDiv.style('pointer-events', 'none');
   video.hide();
   
+}
+
+function ascii_cleanup() {
+  if (video) {
+    video.remove();
+    video = null;
+  }
+
+  if (asciiDiv) {
+    asciiDiv.remove();
+    asciiDiv = null;
+  }
 }
 
 
   function ascii_stage(){
 
-  
+  background(0);
   video.loadPixels();
     let asciiImage= '';
   for (let j=0; j < video.height; j++) { 

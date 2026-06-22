@@ -1,5 +1,5 @@
-// let currentScene = "intro_text";
-let currentScene = "Outro";
+let currentScene = "intro_text";
+// let currentScene = "Outro";
 
 
 let serialValue = 'scan your card';
@@ -16,7 +16,8 @@ function setup() {
 }
 
 function setup_tekst() {
-  createCanvas(windowWidth, windowHeight);
+  ascii_cleanup();
+  resizeCanvas(windowWidth, windowHeight);
   background(20);
   textFont('Courier');
   textAlign(CENTER, CENTER);
@@ -65,17 +66,17 @@ function draw() {
   ;
 }
 
-// frameRate(12);
 
 function TriggerAfterReceive() {
     currentScene = "checking_stage";
     
     console.log(serialValue);
     console.log(currentScene);
-    changeSceneAfterSeconds(10, "UID_text");
-    changeSceneAfterSeconds(25, "pixel_stage", pixel_setup);
-    changeSceneAfterSeconds(40, "asciiCamera", ascii_setup);
-    changeSceneAfterSeconds(55, "Outro", setup_tekst);
+    changeSceneAfterSeconds(2, "UID_text");
+    // changeSceneAfterSeconds(25, "pixel_stage", pixel_setup);
+    changeSceneAfterSeconds(5, "asciiCamera", ascii_setup);
+    // changeSceneAfterSeconds(20, "Outro", remove);
+    changeSceneAfterSeconds(30, "Outro", setup_tekst);
 }
 
 function changeSceneAfterSeconds(seconds, sceneName, callback) {
