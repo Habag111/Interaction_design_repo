@@ -612,12 +612,13 @@ function intro_text(customParts){
 
   
   const defaultParts = ['DO YOU THINK ', 'YO', 'U', 'ID', ' ARE EXCLUDED ?'];
-  const parts = typeof customParts === 'string' ? [customParts] : defaultParts;
+  const topLines = typeof customParts === 'string' ? customParts.split(/\r?\n/) : null;
+  const parts = topLines || defaultParts;
   // const bottomLine = 'scan your card';
   const bottomLine = `${serialValue}`;
 
   
-  const lines = [parts.join(''), bottomLine];
+  const lines = topLines ? [...topLines, bottomLine] : [parts.join(''), bottomLine];
 
   const maxLineUnits = Math.max(
     ...lines.map((line) =>
@@ -669,23 +670,38 @@ function intro_text(customParts){
 
   const totalHeight = lines.length * (7 * cellHeight) + (lines.length - 1) * lineSpacing;
   let y = (height - totalHeight) / 2 + cellHeight / 2;
+  let x;
 
-  // Center the top line and render parts sequentially on the same y
-  const topWidth = parts.reduce((sum, p) => sum + getLineWidth(p, cellWidth, letterSpacing), 0);
-  let x = (width - topWidth) / 2 + cellWidth / 2;
-
-  for (const part of parts) {
-    const alpha = getLineAlpha(part);
-    fill(255, alpha);
-    for (const char of part) {
-      const letter = letters[char] || letters[' '];
-      drawLetter(letter, x, y, cellWidth, cellHeight);
-      x += getLetterWidth(char) * cellWidth + letterSpacing;
+  if (topLines) {
+    for (const line of topLines) {
+      const lineWidth = getLineWidth(line, cellWidth, letterSpacing);
+      x = (width - lineWidth) / 2 + cellWidth / 2;
+      fill(255);
+      for (const char of line) {
+        const letter = letters[char] || letters[' '];
+        drawLetter(letter, x, y, cellWidth, cellHeight);
+        x += getLetterWidth(char) * cellWidth + letterSpacing;
+      }
+      y += 7 * cellHeight + lineSpacing;
     }
+  } else {
+    // Center the top line and render parts sequentially on the same y
+    const topWidth = parts.reduce((sum, p) => sum + getLineWidth(p, cellWidth, letterSpacing), 0);
+    x = (width - topWidth) / 2 + cellWidth / 2;
+
+    for (const part of parts) {
+      const alpha = getLineAlpha(part);
+      fill(255, alpha);
+      for (const char of part) {
+        const letter = letters[char] || letters[' '];
+        drawLetter(letter, x, y, cellWidth, cellHeight);
+        x += getLetterWidth(char) * cellWidth + letterSpacing;
+      }
+    }
+    y += 7 * cellHeight + lineSpacing;
   }
 
   // Draw the bottom line below the top line
-  y += 7 * cellHeight + lineSpacing;
   const bottomWidth = getLineWidth(bottomLine, cellWidth, letterSpacing);
   x = (width - bottomWidth) / 2 + cellWidth / 2;
   fill(255);

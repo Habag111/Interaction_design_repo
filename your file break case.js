@@ -13,7 +13,13 @@ function setup() {
   noStroke();
 }
 
-
+function setup_tekst() {
+  createCanvas(windowWidth, windowHeight);
+  background(20);
+  textFont('Courier');
+  textAlign(CENTER, CENTER);
+  noStroke();
+}
 
 function draw() {
   switch (currentScene) {
@@ -23,14 +29,25 @@ function draw() {
     case "checking_stage":
       checking_stage();
       break;
+    case "UID_text":
+      intro_text("YOU ARE:");
+      break;
     case "pixel_stage":
       pixelscene();
       break;
     case "asciiCamera":
       ascii_stage();
       break;
-    case "gameOver":
-      drawGameOverScene();
+    // case "Outro":
+    //   intro_text(`Test:`);
+    //   break;
+    case "Outro":
+      intro_text(`everyone is a number in the EYE of the algorithm
+        your needs
+        your experiences
+        your personality
+        
+        your number is evaluated`);
       break;
     default:
       console.log("Error: Unknown scene");
@@ -41,13 +58,14 @@ function draw() {
 // frameRate(12);
 
 function TriggerAfterReceive() {
-    // currentScene = "checking_stage";
-    parts = ['your number', 'is'] 
+    currentScene = "checking_stage";
+    
     console.log(serialValue);
     console.log(currentScene);
-    changeSceneAfterSeconds(10, "intro_text");
-    changeSceneAfterSeconds(20, "pixel_stage", pixel_setup);
-    changeSceneAfterSeconds(30, "asciiCamera", ascii_setup);
+    changeSceneAfterSeconds(10, "UID_text");
+    changeSceneAfterSeconds(25, "pixel_stage", pixel_setup);
+    changeSceneAfterSeconds(40, "asciiCamera", ascii_setup);
+    changeSceneAfterSeconds(55, "Outro", setup_tekst);
 }
 
 function changeSceneAfterSeconds(seconds, sceneName, callback) {
