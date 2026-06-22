@@ -72,11 +72,10 @@ function TriggerAfterReceive() {
     
     console.log(serialValue);
     console.log(currentScene);
-    changeSceneAfterSeconds(2, "UID_text");
-    // changeSceneAfterSeconds(25, "pixel_stage", pixel_setup);
-    changeSceneAfterSeconds(5, "asciiCamera", ascii_setup);
-    // changeSceneAfterSeconds(20, "Outro", remove);
-    changeSceneAfterSeconds(30, "Outro", setup_tekst);
+    changeSceneAfterSeconds(5, "UID_text");
+    changeSceneAfterSeconds(15, "pixel_stage", pixel_setup);
+    changeSceneAfterSeconds(35, "asciiCamera", ascii_setup);
+    changeSceneAfterSeconds(55, "Outro", setup_tekst);
 }
 
 function changeSceneAfterSeconds(seconds, sceneName, callback) {
