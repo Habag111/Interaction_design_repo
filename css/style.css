@@ -10,9 +10,12 @@
 }
 
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: block;
     min-height: 100vh;
     background: #f0f0f0;
+    overflow: hidden;
+}
+
+canvas {
+    display: block;
 }
