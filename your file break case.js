@@ -1,4 +1,6 @@
-let currentScene = "intro_text";
+// let currentScene = "intro_text";
+let currentScene = "Outro";
+
 
 let serialValue = 'scan your card';
 let port;
@@ -21,6 +23,13 @@ function setup_tekst() {
   noStroke();
 }
 
+outrotext = `everyone is a number in the EYE of the algorithm
+your needs
+your experiences
+your personality
+        
+your number is evaluated`
+
 function draw() {
   switch (currentScene) {
     case "intro_text":
@@ -42,12 +51,13 @@ function draw() {
     //   intro_text(`Test:`);
     //   break;
     case "Outro":
-      intro_text(`everyone is a number in the EYE of the algorithm
-        your needs
-        your experiences
-        your personality
+      intro_text(outrotext);
+      // intro_text(`everyone is a number in the EYE of the algorithm
+      //   your needs
+      //   your experiences
+      //   your personality
         
-        your number is evaluated`);
+      //   your number is evaluated`);
       break;
     default:
       console.log("Error: Unknown scene");
