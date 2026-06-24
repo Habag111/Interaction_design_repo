@@ -37,9 +37,6 @@ function buildDensityString(inputChars, densityOrder, endChars) {
   return orderedChars + endChars
 }
 
-const inputString = 'DA:51:70:53'
-const arrangedDensity = buildDensityString(inputString, density, density_end)
-console.log(arrangedDensity)
 let video
 
 function ascii_setup() {
@@ -64,6 +61,11 @@ function windowResized() {
 
 
 function ascii_stage(){
+  if (!video || !video.elt || video.elt.readyState < 2) {
+    return;
+  }
+
+  const arrangedDensity = buildDensityString(serialValue || 'scan your card', density, density_end)
   background(0);
   video.loadPixels();
   const cellWidth = width / video.width;
