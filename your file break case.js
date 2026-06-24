@@ -15,6 +15,8 @@ function setup() {
   noStroke();
 }
 
+
+
 function setup_tekst() {
   ascii_cleanup();
   resizeCanvas(windowWidth, windowHeight);
@@ -32,6 +34,8 @@ your personality
 your number is evaluated`
 
 function draw() {
+  //changeSceneAfterSeconds(1, "pixel_stage", pixel_setup);
+
   switch (currentScene) {
     case "intro_text":
       intro_text();

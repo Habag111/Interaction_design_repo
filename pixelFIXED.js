@@ -1,9 +1,9 @@
 let cam;
 const CAPTURE_WIDTH = 640;
 const CAPTURE_HEIGHT = 480;
-const PIXEL_SIZE = 10;
+const PIXEL_SIZE = 7;
 
-function pixel_setup() {
+function setup() {
   createCanvas(windowWidth, windowHeight);
   captureWidth = windowWidth;
   captureHeight = windowWidth * (CAPTURE_HEIGHT / CAPTURE_WIDTH);
@@ -20,7 +20,7 @@ function windowResized() {
   cam.size(captureWidth, captureHeight);
 }
 
-function pixelscene() {
+function draw() {
   background(0);
   cam.loadPixels();
 
@@ -31,8 +31,18 @@ function pixelscene() {
       const g = cam.pixels[i + 1];
       const b = cam.pixels[i + 2];
       const brightness = (r + g + b) / 3;
-      const bw = brightness > 127 ? 255 : 0;
-      fill(bw);
+      let tone;
+      if (brightness < 80) {
+        tone = 0;        // black
+      } else if (brightness < 110) {
+        tone = 85;       // dark gray
+      } else if (brightness < 150) {
+        tone = 170;      // light gray
+      } else {
+        tone = 255;      // white
+      }
+      fill(tone);
+      noStroke();
       rect(x, y, PIXEL_SIZE, PIXEL_SIZE);
     }
   }
